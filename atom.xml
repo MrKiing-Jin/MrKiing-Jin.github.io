@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>蜡笔小金QAQ的个人主页</title>
+  
+  <subtitle>Re0:从零开始的IT码农生活</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2022-04-14T08:14:42.198Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>蜡笔小金QAQ</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hello World！</title>
+    <link href="http://example.com/2022/04/13/hello-world/"/>
+    <id>http://example.com/2022/04/13/hello-world/</id>
+    <published>2022-04-13T13:18:55.440Z</published>
+    <updated>2022-04-14T08:14:42.198Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="2021-4-14"><a href="#2021-4-14" class="headerlink" title="2021/4/14"></a>2021/4/14</h3><p>欢迎！</p><p>我的一小步 <del>人类的一大步</del>(误)</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h3 id=&quot;2021-4-14&quot;&gt;&lt;a href=&quot;#2021-4-14&quot; class=&quot;headerlink&quot; title=&quot;2021/4/14&quot;&gt;&lt;/a&gt;2021/4/14&lt;/h3&gt;&lt;p&gt;欢迎！&lt;/p&gt;
+&lt;p&gt;我的一小步 &lt;del&gt;人类的一大步&lt;/del&gt;(误)&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
