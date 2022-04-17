@@ -1,5 +1,5 @@
-http://example.com/about/index.html
 http://example.com/2022/04/15/%E6%B5%85%E8%B0%88%E4%BA%8C%E5%8F%89%E6%A0%91/
+http://example.com/about/index.html
 http://example.com/link/index.html
 http://example.com/categories/index.html
 http://example.com/2022/04/13/hello-world/
@@ -20,9 +20,9 @@ http://example.com/2022/04/15/%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E8%93%9D%E6%A
 http://example.com/2022/04/15/%E7%AC%AC%E4%B9%9D%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
 http://example.com/tags/index.html
 http://example.com/
-http://example.com/tags/%E5%AD%A6%E4%B9%A0/
 http://example.com/tags/%E5%9B%9E%E5%BF%86/
-http://example.com/categories/%E6%8E%A2%E8%AE%A8/
+http://example.com/tags/%E5%AD%A6%E4%B9%A0/
 http://example.com/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/
+http://example.com/categories/%E6%8E%A2%E8%AE%A8/
 http://example.com/categories/%E6%A8%A1%E6%9D%BF/
 http://example.com/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/
