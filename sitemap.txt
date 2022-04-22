@@ -1,4 +1,5 @@
 http://example.com/2022/04/15/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF(%E4%B8%8D%E5%AE%9A%E6%9C%9F%E6%9B%B4%E6%96%B0)/
+http://example.com/2022/04/15/scanf%E5%92%8Cprintf%E8%AF%BB%E5%85%A5%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%A2%E8%AE%A8/
 http://example.com/about/index.html
 http://example.com/2022/04/15/%E6%B5%85%E8%B0%88%E4%BA%8C%E5%8F%89%E6%A0%91/
 http://example.com/link/index.html
@@ -15,7 +16,6 @@ http://example.com/2022/04/15/%E7%AC%AC%E5%8D%81%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9
 http://example.com/2022/04/15/%E7%AC%AC%E5%85%AD%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
 http://example.com/2022/04/15/%E7%AC%AC%E5%85%AB%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
 http://example.com/2022/04/15/%E7%AC%AC%E4%B8%83%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
-http://example.com/2022/04/15/scanf%E5%92%8Cprintf%E8%AF%BB%E5%85%A5%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E6%8E%A2%E8%AE%A8/
 http://example.com/2022/04/15/%E7%AC%AC%E5%8D%81%E4%BA%8C%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
 http://example.com/2022/04/15/%E7%AC%AC%E4%B9%9D%E5%B1%8A%E8%93%9D%E6%A1%A5%E6%9D%AF%E9%A2%98%E8%A7%A3/
 http://example.com/tags/index.html
