@@ -1,3 +1,4 @@
+http://example.com/2022/08/05/pytorch%E8%AF%AD%E6%B3%95/
 http://example.com/2022/08/05/2018HBCPC/
 http://example.com/2022/08/05/%E6%9A%91%E5%81%87%E9%9B%86%E8%AE%ADweek3/
 http://example.com/2022/04/15/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF(%E4%B8%8D%E5%AE%9A%E6%9C%9F%E6%9B%B4%E6%96%B0)/
@@ -42,3 +43,4 @@ http://example.com/categories/%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB/
 http://example.com/categories/pta%E5%A4%A9%E6%A2%AF%E8%B5%9B/
 http://example.com/categories/%E6%B4%9B%E8%B0%B7/
 http://example.com/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/
+http://example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/
