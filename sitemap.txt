@@ -1,3 +1,4 @@
+http://example.com/2022/08/08/%E6%B1%82%E5%AF%BC%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/
 http://example.com/2022/08/05/pytorch%E8%AF%AD%E6%B3%95/
 http://example.com/2022/08/05/2018HBCPC/
 http://example.com/2022/08/05/%E6%9A%91%E5%81%87%E9%9B%86%E8%AE%ADweek3/
