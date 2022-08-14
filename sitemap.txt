@@ -46,6 +46,6 @@ http://example.com/categories/%E6%8E%A2%E8%AE%A8/
 http://example.com/categories/%E6%A8%A1%E6%9D%BF/
 http://example.com/categories/%E9%9B%86%E8%AE%AD/
 http://example.com/categories/%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB/
-http://example.com/categories/pta%E5%A4%A9%E6%A2%AF%E8%B5%9B/
 http://example.com/categories/%E6%B4%9B%E8%B0%B7/
+http://example.com/categories/pta%E5%A4%A9%E6%A2%AF%E8%B5%9B/
 http://example.com/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/
