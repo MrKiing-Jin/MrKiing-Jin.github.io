@@ -1,7 +1,7 @@
+http://example.com/2022/08/20/%E4%B8%87%E8%81%AA%E8%80%81%E5%B8%88%E9%A1%B9%E7%9B%AE/
 http://example.com/2022/08/22/CNN_ResNet/
 http://example.com/2022/08/22/CNN_NIN/
 http://example.com/2022/08/22/%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96/
-http://example.com/2022/08/20/%E4%B8%87%E8%81%AA%E8%80%81%E5%B8%88%E9%A1%B9%E7%9B%AE/
 http://example.com/2022/08/18/%E7%BB%8F%E5%85%B8CNN-VGG/
 http://example.com/2022/08/16/%E7%BB%8F%E5%85%B8CNN%E6%A8%A1%E5%9E%8B-AlexNet/
 http://example.com/2022/08/16/%E7%BB%8F%E5%85%B8CNN%E6%A8%A1%E5%9E%8B-LeNet/
