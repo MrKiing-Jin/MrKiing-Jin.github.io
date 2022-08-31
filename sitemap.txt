@@ -1,3 +1,4 @@
+http://example.com/2022/08/31/matlab%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/
 http://example.com/2022/08/20/%E4%B8%87%E8%81%AA%E8%80%81%E5%B8%88%E9%A1%B9%E7%9B%AE/
 http://example.com/2022/08/22/CNN_ResNet/
 http://example.com/2022/08/22/CNN_NIN/
@@ -58,3 +59,4 @@ http://example.com/categories/%E5%A4%A7%E5%AD%A6%E7%94%9F%E6%B4%BB/
 http://example.com/categories/pta%E5%A4%A9%E6%A2%AF%E8%B5%9B/
 http://example.com/categories/%E6%B4%9B%E8%B0%B7/
 http://example.com/categories/%E8%93%9D%E6%A1%A5%E6%9D%AF/
+http://example.com/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/
