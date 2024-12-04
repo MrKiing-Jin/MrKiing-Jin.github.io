@@ -502,14 +502,14 @@
 
   
   <url>
-    <loc>http://example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>http://example.com/categories/HBCPC/</loc>
     <lastmod>2024-12-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/HBCPC/</loc>
+    <loc>http://example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2024-12-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -523,14 +523,14 @@
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
+    <loc>http://example.com/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/</loc>
     <lastmod>2024-12-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E9%9A%8F%E7%AC%94%E6%9D%82%E8%B0%88/</loc>
+    <loc>http://example.com/categories/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
     <lastmod>2024-12-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
