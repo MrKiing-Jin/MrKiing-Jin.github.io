@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>深度学习-pytorch-自动求导与线性回归 | AdenPeers的个人主页</title><meta name="keywords" content="学习"><meta name="author" content="AdenPeers"><meta name="copyright" content="AdenPeers"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="自动求导尝试torch.Tensor 是这个包的核心类。如果设置它的属性 .requires_grad 为 True，那么它将会追踪对于该张量的所有操作。当完成计算后可以通过调用 .backward()，来自动计算所有的梯度。这个张量的所有梯度将会自动累加到.grad属性. ​ 要阻止一个张量被跟踪历史，可以调用 .detach() 方法将其与计算历史分离，并阻止它未来的计算记录被跟踪。 ​ 为了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习-pytorch-自动求导与线性回归">
+<meta property="og:url" content="http://example.com/2022/10/01/%E6%B1%82%E5%AF%BC%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
+<meta property="og:site_name" content="AdenPeers的个人主页">
+<meta property="og:description" content="自动求导尝试torch.Tensor 是这个包的核心类。如果设置它的属性 .requires_grad 为 True，那么它将会追踪对于该张量的所有操作。当完成计算后可以通过调用 .backward()，来自动计算所有的梯度。这个张量的所有梯度将会自动累加到.grad属性. ​ 要阻止一个张量被跟踪历史，可以调用 .detach() 方法将其与计算历史分离，并阻止它未来的计算记录被跟踪。 ​ 为了">
+<meta property="og:locale">
+<meta property="og:image" content="https://s2.loli.net/2022/08/08/WQdjaYOtTH1qCr6.jpg">
+<meta property="article:published_time" content="2022-10-01T04:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-05T02:19:05.267Z">
+<meta property="article:author" content="AdenPeers">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/08/08/WQdjaYOtTH1qCr6.jpg"><link rel="shortcut icon" href="https://s2.loli.net/2024/07/31/UvEDLW6yJmOPsrN.jpg"><link rel="canonical" href="http://example.com/2022/10/01/%E6%B1%82%E5%AF%BC%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '深度学习-pytorch-自动求导与线性回归',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-05 10:19:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="AdenPeers的个人主页" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://s2.loli.net/2024/07/31/UvEDLW6yJmOPsrN.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">47</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://s2.loli.net/2022/08/08/WQdjaYOtTH1qCr6.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">AdenPeers的个人主页</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 档案</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">深度学习-pytorch-自动求导与线性回归</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-10-01T04:00:00.000Z" title="Created 2022-10-01 12:00:00">2022-10-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2024-12-05T02:19:05.267Z" title="Updated 2024-12-05 10:19:05">2024-12-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="深度学习-pytorch-自动求导与线性回归"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="自动求导尝试"><a href="#自动求导尝试" class="headerlink" title="自动求导尝试"></a>自动求导尝试</h3><p>torch.Tensor 是这个包的核心类。如果设置它的属性 .requires_grad 为 True，那么它将会追踪对于该张量的所有操作。当完成计算后可以通过调用 .backward()，来自动计算所有的梯度。这个张量的所有梯度将会自动累加到.grad属性.</p>
+<p>​ 要阻止一个张量被跟踪历史，可以调用 .detach() 方法将其与计算历史分离，并阻止它未来的计算记录被跟踪。</p>
+<p>​ 为了防止跟踪历史记录(和使用内存），可以将代码块包装在 with torch.no_grad(): 中。在评估模型时特别有用，因为模型可能具有 requires_grad = True 的可训练的参数，但是我们不需要在此过程中对他们进行梯度计算。</p>
+<p>​ 还有一个类对于autograd的实现非常重要：Function。</p>
+<p>Tensor 和 Function 互相连接生成了一个无圈图(acyclic graph)，它编码了完整的计算历史。每个张量都有一个 .grad_fn 属性，该属性引用了创建 Tensor 自身的Function(除非这个张量是用户手动创建的，即这个张量的 grad_fn 是 None )。</p>
+<p>​<strong>如果需要计算导数，可以在 Tensor 上调用 .backward()。如果 Tensor 是一个标量(即它包含一个元素的数据），则不需要为 backward() 指定任何参数，但是如果它有更多的元素，则需要指定一个 gradient 参数，该参数是形状匹配的张量。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x = torch.ones(<span class="number">3</span>, <span class="number">2</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line"></span><br><span class="line">y = x+<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor([[1., 1.],
+        [1., 1.],
+        [1., 1.]], requires_grad=True)
+tensor([[3., 3.],
+        [3., 3.],
+        [3., 3.]], grad_fn=&lt;AddBackward0&gt;)
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/5199c3f14c384bde80002df88702b5c7.png" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn((<span class="number">2</span>, <span class="number">3</span>), requires_grad=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line">y = x+<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"></span><br><span class="line"><span class="comment"># x.grad.zero_()</span></span><br><span class="line">y = y.<span class="built_in">sum</span>()  <span class="comment"># 必须将y最终结果化为标量才能进行求导操作</span></span><br><span class="line">y.backward()</span><br><span class="line"><span class="built_in">print</span>(x.grad)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> y.data.norm() &lt; <span class="number">1000</span>:</span><br><span class="line">    y = y*<span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor([[-1.5443, -0.0354, -0.8403],
+        [ 1.5566,  0.7182,  1.5884]], requires_grad=True)
+tensor([[0.4557, 1.9646, 1.1597],
+        [3.5566, 2.7182, 3.5884]], grad_fn=&lt;AddBackward0&gt;)
+tensor([[1., 1., 1.],
+        [1., 1., 1.]])
+tensor(1720.7292, grad_fn=&lt;MulBackward0&gt;)
+</code></pre>
+<h3 id="线性回归理解"><a href="#线性回归理解" class="headerlink" title="线性回归理解"></a>线性回归理解</h3><p>给定一个数据集，我们的目标是寻找模型的权重和偏置， 使得根据模型做出的预测大体符合数据里的真实价格。 输出的预测值由输入特征通过线性模型的仿射变换决定，仿射变换由所选权重和偏置确定。</p>
+<p><img src="https://img-blog.csdnimg.cn/500d56e0602c4faa83e78a05c5dd2000.png" alt="在这里插入图片描述"></p>
+<h3 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h3><p><img src="https://img-blog.csdnimg.cn/a48ba0d06cdb4cf2bd111c534e5f21a0.png" alt="在这里插入图片描述"></p>
+<h3 id="线性回归的从零开始实现"><a href="#线性回归的从零开始实现" class="headerlink" title="线性回归的从零开始实现"></a>线性回归的从零开始实现</h3><p>其中d2l包需要自己导入离线安装，附上链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/NEUQ_snowy/article/details/126118438?spm=1001.2014.3001.5502">感谢SWY大神</a></p>
+<p>顺便补一个d2l_zh的包：<a target="_blank" rel="noopener" href="https://blog.csdn.net/NEUQ_snowy/article/details/123969408?spm=1001.2014.3001.5502">再次感谢SWY大神</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> d2l <span class="keyword">import</span> torch <span class="keyword">as</span> d2l  <span class="comment"># 李沐大神自己写的包，需要自己导入</span></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line">%matplotlib</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>Using matplotlib backend: QtAgg
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/2e130b7b77094757bd3096c4bf6ab54b.png" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">synthetic_data</span>(<span class="params">w, b, num_examples</span>):</span><br><span class="line">    <span class="comment"># &quot;生成 y=Xw+b+e&quot; e是噪音</span></span><br><span class="line">    <span class="comment"># 均值为0，标准差为1的随机数，行数等于样本数，列数等于w的长度的随机数</span></span><br><span class="line">    X = torch.normal(<span class="number">0</span>, <span class="number">1</span>, (num_examples, <span class="built_in">len</span>(w)))</span><br><span class="line">    <span class="comment"># y=Xw+b</span></span><br><span class="line">    y = torch.matmul(X, w)+b</span><br><span class="line">    y += torch.normal(<span class="number">0</span>, <span class="number">0.01</span>, y.shape)  <span class="comment"># 加了点噪音</span></span><br><span class="line">    <span class="keyword">return</span> X, y.reshape((-<span class="number">1</span>, <span class="number">1</span>))  <span class="comment"># 转化成只有一列</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">true_w = torch.tensor([<span class="number">2</span>, -<span class="number">3.4</span>])</span><br><span class="line">true_b = <span class="number">4.2</span></span><br><span class="line">features, labels = synthetic_data(true_w, true_b, <span class="number">1000</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;features&#x27;</span>, features[<span class="number">0</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;labels&#x27;</span>, labels[<span class="number">0</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>features tensor([-0.3295, -0.7524])
+labels tensor([6.0904])
+</code></pre>
+<p>读取小批量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">data_iter</span>(<span class="params">batch_size, features, labels</span>):  <span class="comment"># batch_size 批量大小</span></span><br><span class="line">    num_examples = <span class="built_in">len</span>(features)</span><br><span class="line">    indices = <span class="built_in">list</span>(<span class="built_in">range</span>(num_examples))</span><br><span class="line">    <span class="comment"># 随机读取样本</span></span><br><span class="line">    random.shuffle(indices)  <span class="comment"># 随机打乱样本</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, num_examples, batch_size):  <span class="comment"># 从0开始，到样本总数数量结束,每次跳batch_size大小</span></span><br><span class="line">        batch_indices = torch.tensor(</span><br><span class="line">            indices[i:<span class="built_in">min</span>(i+batch_size, num_examples)])</span><br><span class="line">        <span class="keyword">yield</span> features[batch_indices], labels[batch_indices]</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们直观感受一下小批量运算：读取第一个小批量数据样本并打印。 每个批量的特征维度显示批量大小和输入特征数。 同样的，批量的标签形状与batch_size相等。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">batch_size = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter(batch_size, features, labels):</span><br><span class="line">    <span class="built_in">print</span>(X, <span class="string">&#x27;\n&#x27;</span>, y)</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor([[ 0.7996,  0.4114],
+        [ 0.0760,  1.0155],
+        [ 0.6860,  0.2270],
+        [-2.0028,  0.9113],
+        [ 0.4199, -0.6192],
+        [-0.0252,  2.0244],
+        [ 1.7162, -0.4195],
+        [ 0.6579, -0.3955],
+        [-1.5817, -0.1407],
+        [-1.0975,  0.1836]]) 
+ tensor([[ 4.4066],
+        [ 0.8990],
+        [ 4.8128],
+        [-2.8907],
+        [ 7.1436],
+        [-2.7258],
+        [ 9.0706],
+        [ 6.8511],
+        [ 1.5068],
+        [ 1.3921]])
+</code></pre>
+<p>初始化模型参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">w=torch.normal(<span class="number">0</span>,<span class="number">0.01</span>,size=(<span class="number">2</span>,<span class="number">1</span>),requires_grad=<span class="literal">True</span>)</span><br><span class="line">b=torch.zeros(<span class="number">1</span>,requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>定义模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">linreg</span>(<span class="params">X, w, b</span>):</span><br><span class="line">    <span class="keyword">return</span> torch.matmul(X, w)+b</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>定义损失函数<br><img src="https://img-blog.csdnimg.cn/e11ed845eec041faad31b003213b6b08.png" alt="在这里插入图片描述"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">squared_loss</span>(<span class="params">y_hat, y</span>):</span><br><span class="line">    <span class="comment"># 均方损失</span></span><br><span class="line">    <span class="keyword">return</span> (y_hat-y.reshape(y_hat.shape))**<span class="number">2</span>/<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>定义优化算法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">sgd</span>(<span class="params">params, lr, batch_size</span>):</span><br><span class="line">    <span class="comment"># 小批量的随机梯度下降</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad(): <span class="comment"># para参数列表，lr是学习率，batch_size</span></span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> params:</span><br><span class="line">            param -= lr * param.grad/batch_size</span><br><span class="line">            param.grad.zero_()</span><br></pre></td></tr></table></figure>
+
+<p>开始训练</p>
+<p>另外附上python特有的print(f’’)用法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Joey9898/article/details/121940891?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522165992664916781432975725%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=165992664916781432975725&biz_id=0&spm=1018.2226.3001.4187">传送门</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">lr = <span class="number">0.03</span>  <span class="comment"># 学习率是0.03(太小效率太低，太大容易超出范围，造成摆动)</span></span><br><span class="line">num_epochs = <span class="number">3</span>  <span class="comment"># 训练次数是3次</span></span><br><span class="line">net = linreg</span><br><span class="line">loss = squared_loss</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter(batch_size, features, labels):</span><br><span class="line">        l = loss(net(X, w, b), y)  <span class="comment"># x和y的小批量损失</span></span><br><span class="line">        l.<span class="built_in">sum</span>().backward()</span><br><span class="line">        sgd([w, b], lr, batch_size)  <span class="comment"># 使用参数的梯度进行更新</span></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        train_l = loss(net(features, w, b), labels)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>, loss <span class="subst">&#123;<span class="built_in">float</span>(train_l.mean()):f&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>epoch 1, loss 0.038161
+epoch 2, loss 0.000139
+epoch 3, loss 0.000048
+</code></pre>
+<p>输出通过学习修正过的参数值，评估训练成功程度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;w的估计误差: <span class="subst">&#123;true_w - w.reshape(true_w.shape)&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;b的估计误差: <span class="subst">&#123;true_b - b&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(w)</span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></table></figure>
+
+<pre><code>w的估计误差: tensor([ 0.0002, -0.0004])
+b的估计误差: tensor([-0.0006])
+tensor([[ 1.9998, -3.3996]])
+tensor([4.2006])
+</code></pre>
+<h3 id="线性回归深度学习框架的简洁实现"><a href="#线性回归深度学习框架的简洁实现" class="headerlink" title="线性回归深度学习框架的简洁实现"></a>线性回归深度学习框架的简洁实现</h3><p>使用pytorch的nn来实现加载数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils <span class="keyword">import</span> data</span><br><span class="line"><span class="keyword">from</span> d2l <span class="keyword">import</span> torch <span class="keyword">as</span> d2l</span><br></pre></td></tr></table></figure>
+
+<p>创建初始w，b。<br>并且生成标签数据集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">true_w =torch.tensor([<span class="number">2</span>,-<span class="number">3.4</span>])</span><br><span class="line">true_b =<span class="number">4.2</span></span><br><span class="line">features,labels=d2l.synthetic_data(true_w,true_b,<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>构造pytorch迭代器</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40211493/article/details/107529148?ops_request_misc=&request_id=&biz_id=102&spm=1018.2226.3001.4187">TensorDataset</a></p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/data.html?highlight=dataloader#torch.utils.data.DataLoader">DataLoader</a></p>
+<p><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/fx.html?highlight=next#torch.fx.Node.next">next</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_array</span>(<span class="params">data_arrrays, batch_size, is_train=<span class="literal">True</span></span>):</span><br><span class="line">    <span class="comment"># 构建迭代器</span></span><br><span class="line">    dataset = data.TensorDataset(*data_arrrays)</span><br><span class="line">    <span class="keyword">return</span> data.DataLoader(dataset, batch_size, shuffle=is_train)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">10</span></span><br><span class="line">data_iter = load_array((features, labels), batch_size)</span><br><span class="line"></span><br><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>(data_iter))</span><br><span class="line"><span class="comment"># 这里我们使用iter构造Python迭代器，并使用next从迭代器中获取第一项。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[tensor([[ 0.1652,  0.8560],
+         [ 0.0147,  1.5673],
+         [ 0.9652, -0.2222],
+         [ 0.4242,  0.1483],
+         [ 0.8722, -1.3510],
+         [ 0.0506,  0.8717],
+         [-1.2767, -0.0087],
+         [-0.4736,  0.8434],
+         [-0.1852, -0.9320],
+         [-1.6329,  0.1184]]),
+ tensor([[ 1.6253],
+         [-1.0980],
+         [ 6.8757],
+         [ 4.5338],
+         [10.5444],
+         [ 1.3342],
+         [ 1.6711],
+         [ 0.3882],
+         [ 7.0090],
+         [ 0.5239]])]
+</code></pre>
+<p>使用深度学习框架定好的层</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nn是神经网络的缩写</span></span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line">net = nn.Sequential(nn.Linear(<span class="number">2</span>, <span class="number">1</span>)) <span class="comment"># 2是输入维度，1是输出维度</span></span><br></pre></td></tr></table></figure>
+
+<p>初始化模型参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net[<span class="number">0</span>].weight.data.normal_(<span class="number">0</span>,<span class="number">0.01</span>) <span class="comment">#使用正太分布替换它的值，均值0，方差0.01</span></span><br><span class="line">net[<span class="number">0</span>].bias.data.fill_(<span class="number">0</span>) <span class="comment">#偏差</span></span><br></pre></td></tr></table></figure>
+
+<p>计算均方误差(平方范数)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss=nn.MSELoss()</span><br></pre></td></tr></table></figure>
+
+<p>实例化SGD实例(优化算法)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainer = torch.optim.SGD(net.parameters(), lr=<span class="number">0.03</span>)</span><br><span class="line"><span class="comment">#第一个参数将w，b传入</span></span><br><span class="line"><span class="comment">#第二个参数设置的学习率</span></span><br></pre></td></tr></table></figure>
+
+<p>开始训练</p>
+<p>回顾一下：在每个迭代周期里，我们将完整遍历一次数据集（train_data）， 不停地从中获取一个小批量的输入和相应的标签。 对于每一个小批量，我们会进行以下步骤:</p>
+<ul>
+<li><p>通过调用net(X)生成预测并计算损失l（前向传播）。</p>
+</li>
+<li><p>通过进行反向传播来计算梯度。</p>
+</li>
+<li><p>通过调用优化器来更新模型参数。</p>
+</li>
+</ul>
+<p>为了更好的衡量训练效果，我们计算每个迭代周期后的损失，并打印它来监控训练过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">num_epochs = <span class="number">3</span>  <span class="comment"># 训练三次</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(num_epochs):</span><br><span class="line">    <span class="keyword">for</span> X, y <span class="keyword">in</span> data_iter:</span><br><span class="line">        l = loss(net(X), y)</span><br><span class="line">        trainer.zero_grad()</span><br><span class="line">        l.backward() <span class="comment">#已经做过了sum</span></span><br><span class="line">        trainer.step() <span class="comment">#模型更新</span></span><br><span class="line">    l = loss(net(features), labels)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>, loss <span class="subst">&#123;l:f&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>epoch 1, loss 0.000246
+epoch 2, loss 0.000098
+epoch 3, loss 0.000098
+</code></pre>
+<p>输出并评估训练结果</p>
+<p>下面我们比较生成数据集的真实参数和通过有限数据训练获得的模型参数。 要访问参数，我们首先从net访问所需的层，然后读取该层的权重和偏置。 正如在从零开始实现中一样，我们估计得到的参数与生成数据的真实参数非常接近</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w = net[<span class="number">0</span>].weight.data</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;w的估计误差：&#x27;</span>, true_w - w.reshape(true_w.shape))</span><br><span class="line">b = net[<span class="number">0</span>].bias.data</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;b的估计误差：&#x27;</span>, true_b - b)</span><br><span class="line"><span class="built_in">print</span>(w)</span><br><span class="line"><span class="built_in">print</span>(b)</span><br></pre></td></tr></table></figure>
+
+<pre><code>w的估计误差： tensor([ 0.0002, -0.0004])
+b的估计误差： tensor([-0.0006])
+tensor([[ 1.9998, -3.3996]])
+tensor([4.2006])
+</code></pre>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">AdenPeers</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/10/01/%E6%B1%82%E5%AF%BC%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">http://example.com/2022/10/01/%E6%B1%82%E5%AF%BC%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0/">学习</a></div><div class="post_share"><div class="social-share" data-image="https://s2.loli.net/2022/08/08/WQdjaYOtTH1qCr6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/10/01/%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96/"><img class="prev-cover" src="https://pic.rmb.bdstatic.com/bjh/a71c596bf113260737725d665af9b3d8.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">深度学习-pytorch-批量归一化</div></div></a></div><div class="next-post pull-right"><a href="/2022/10/01/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/"><img class="next-cover" src="https://pic.rmb.bdstatic.com/bjh/81d1ecbbbcf983d3543260a4ecd6d756.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">深度学习-pytorch-神经网络基础</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2022/08/05/2018HBCPC/" title="2018-HBCPC题解"><img class="cover" src="https://s2.loli.net/2022/08/05/etlrkYZvV9co3x7.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-05</div><div class="title">2018-HBCPC题解</div></div></a></div><div><a href="/2022/10/01/CNN_NIN/" title="深度学习-pytorch-经典CNN模型-NIN和GoogLeNet"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/3a09bed7a9c0481f9c6a41c6bfa64f33.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-01</div><div class="title">深度学习-pytorch-经典CNN模型-NIN和GoogLeNet</div></div></a></div><div><a href="/2022/10/01/CNN_ResNet/" title="深度学习-pytorch-经典CNN模型-ResNet"><img class="cover" src="https://pic.rmb.bdstatic.com/bjh/f893dcf5877974a1e319344bb020fa98.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-01</div><div class="title">深度学习-pytorch-经典CNN模型-ResNet</div></div></a></div><div><a href="/2022/10/02/MLP/" title="深度学习-pytorch-MLP提高泛化"><img class="cover" src="https://s2.loli.net/2022/08/12/o9iUOrtGDa4gpH7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-02</div><div class="title">深度学习-pytorch-MLP提高泛化</div></div></a></div><div><a href="/2022/10/01/Softmax%E5%9B%9E%E5%BD%92/" title="深度学习-pytorch-图片集与Softmax回归"><img class="cover" src="https://s2.loli.net/2022/08/10/7SNQucowEmrbxUW.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-01</div><div class="title">深度学习-pytorch-图片集与Softmax回归</div></div></a></div><div><a href="/2022/10/01/pytorch%E8%AF%AD%E6%B3%95/" title="深度学习-pytorch-张量tensor语法"><img class="cover" src="https://s2.loli.net/2022/08/05/OPdrDLG9f8q1kus.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-10-01</div><div class="title">深度学习-pytorch-张量tensor语法</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comment</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://s2.loli.net/2024/07/31/UvEDLW6yJmOPsrN.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">AdenPeers</div><div class="author-info__description">沉着冷静，擦亮眼睛</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">47</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/MrKiing-Jin"><i class="fab fa-github"></i><span>Github Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Mrkiing-Jin" target="_blank" title=""><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:labixiaojin666@163.com" target="_blank" title=""><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">扣扣号 : 1759212072 > _ < ( 评论模块已经实装，欢迎灌水！ (≧▽≦)  )</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BC%E5%B0%9D%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">自动求导尝试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%90%86%E8%A7%A3"><span class="toc-number">2.</span> <span class="toc-text">线性回归理解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">损失函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">4.</span> <span class="toc-text">线性回归的从零开始实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%E7%9A%84%E7%AE%80%E6%B4%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">线性回归深度学习框架的简洁实现</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/04/Matrix/" title="《Self-Alignment of Large Language Models via Monopolylogue-based Social Scene Simulation》MATRIX论文分享"><img src="https://p.inari.site/guest/24-12/03/674efb7da6ae4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="《Self-Alignment of Large Language Models via Monopolylogue-based Social Scene Simulation》MATRIX论文分享"/></a><div class="content"><a class="title" href="/2024/12/04/Matrix/" title="《Self-Alignment of Large Language Models via Monopolylogue-based Social Scene Simulation》MATRIX论文分享">《Self-Alignment of Large Language Models via Monopolylogue-based Social Scene Simulation》MATRIX论文分享</a><time datetime="2024-12-04T14:00:00.000Z" title="Created 2024-12-04 22:00:00">2024-12-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/02/MLP/" title="深度学习-pytorch-MLP提高泛化"><img src="https://s2.loli.net/2022/08/12/o9iUOrtGDa4gpH7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度学习-pytorch-MLP提高泛化"/></a><div class="content"><a class="title" href="/2022/10/02/MLP/" title="深度学习-pytorch-MLP提高泛化">深度学习-pytorch-MLP提高泛化</a><time datetime="2022-10-02T04:00:00.000Z" title="Created 2022-10-02 12:00:00">2022-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/02/%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/" title="深度学习-pytorch-多层感知机(MLP)"><img src="https://s2.loli.net/2022/08/10/ZoT5rtk72SFRf4c.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度学习-pytorch-多层感知机(MLP)"/></a><div class="content"><a class="title" href="/2022/10/02/%E5%A4%9A%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA/" title="深度学习-pytorch-多层感知机(MLP)">深度学习-pytorch-多层感知机(MLP)</a><time datetime="2022-10-02T04:00:00.000Z" title="Created 2022-10-02 12:00:00">2022-10-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/01/CNN_NIN/" title="深度学习-pytorch-经典CNN模型-NIN和GoogLeNet"><img src="https://pic.rmb.bdstatic.com/bjh/3a09bed7a9c0481f9c6a41c6bfa64f33.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度学习-pytorch-经典CNN模型-NIN和GoogLeNet"/></a><div class="content"><a class="title" href="/2022/10/01/CNN_NIN/" title="深度学习-pytorch-经典CNN模型-NIN和GoogLeNet">深度学习-pytorch-经典CNN模型-NIN和GoogLeNet</a><time datetime="2022-10-01T04:00:00.000Z" title="Created 2022-10-01 12:00:00">2022-10-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/01/CNN_ResNet/" title="深度学习-pytorch-经典CNN模型-ResNet"><img src="https://pic.rmb.bdstatic.com/bjh/f893dcf5877974a1e319344bb020fa98.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="深度学习-pytorch-经典CNN模型-ResNet"/></a><div class="content"><a class="title" href="/2022/10/01/CNN_ResNet/" title="深度学习-pytorch-经典CNN模型-ResNet">深度学习-pytorch-经典CNN模型-ResNet</a><time datetime="2022-10-01T04:00:00.000Z" title="Created 2022-10-01 12:00:00">2022-10-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By AdenPeers</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">所有过往,皆为序章。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="Chat"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="Scroll To Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '87cce023bb99ffbb8aae',
+      clientSecret: '9e197ddb2fc4f2877bd06446c036933417bea47d',
+      repo: 'MrKiing-Jin.github.io',
+      owner: 'MrKiing-Jin',
+      admin: ['MrKiing-Jin'],
+      id: 'a5e86284b12d3d1f5d23617b26e26036',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
